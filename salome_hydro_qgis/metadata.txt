@@ -7,3 +7,4 @@ qgisMinimumVersion=3.22
 author=Jean-Marie KERLOCH
 email=jean-marie.kerloch@oslandia.com
 repository=URL to the code repository
+hasProcessingProvider=yes

@@ -10,7 +10,9 @@
 # ---------------------------------------------------------------------
 
 from PyQt5.QtWidgets import QAction
+from qgis.core import QgsApplication
 
+from salome_hydro_qgis.processing.provider import Provider
 
 
 def classFactory(iface):
@@ -20,13 +22,20 @@ def classFactory(iface):
 class SalomeHydroPlugin:
     def __init__(self, iface):
         self.iface = iface
+        self.provider = None
+
+    def initProcessing(self):
+        self.provider = Provider()
+        QgsApplication.processingRegistry().addProvider(self.provider)
 
     def initGui(self):
+        self.initProcessing()
         self.action = QAction('SALOME-HYDRO', self.iface.mainWindow())
         self.action.triggered.connect(self.run)
         self.iface.addToolBarIcon(self.action)
 
     def unload(self):
+        QgsApplication.processingRegistry().removeProvider(self.provider)
         self.iface.removeToolBarIcon(self.action)
         del self.action
 
